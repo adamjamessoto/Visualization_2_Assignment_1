@@ -8,11 +8,13 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import processing.data.JSONArray;
 import processing.core.*;
+import processing.core.PFont;
 
 public class ShotChart extends PApplet {
 
 	JSONArray playerShots;
 	Shot[] shotsAttempts;
+	PFont font;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -28,6 +30,7 @@ public class ShotChart extends PApplet {
 
     public void setup(){
     	background(230, 191, 131);
+    	font = loadFont("ArialMT-148.vlw");
     	
     	// Load JSON file
     	playerShots = loadJSONArray("westbrookShots_15_16.json");
@@ -36,8 +39,8 @@ public class ShotChart extends PApplet {
     	shotsAttempts = new Shot[dataSize];
     	
     	for (int i=0; i<dataSize; i++) {
-    		processing.data.JSONObject shot = playerShots.getJSONObject(i); 
-    		shotsAttempts[i] = new Shot(new PVector(shot.getInt("x"), shot.getInt("y")), 3, i, this, shot.getInt("shot_made_flag"));
+    		processing.data.JSONObject shot = playerShots.getJSONObject(i);
+    		shotsAttempts[i] = new Shot(new PVector(shot.getInt("x"), shot.getInt("y")), 5, i, this, shot.getInt("shot_made_flag"), shot.getString("opponent"));
     	}
     }
 
@@ -51,6 +54,7 @@ public class ShotChart extends PApplet {
     	float nextLocX;
     	float nextLocY;
     	
+    	// Drawing the individual shots
     	for (int i = 0; i < shotsAttempts.length; i++) {
     		Shot shot = shotsAttempts[i];
     	    pushMatrix();
@@ -71,12 +75,14 @@ public class ShotChart extends PApplet {
        		nextLocY = updateLocY(currentLocY, finalLocY);
         	
         	// Draw ellipse in next position
-        	//ellipse(finalLocX, finalLocY, shot.radius, shot.radius);
+//        	ellipse(finalLocX, finalLocY, shot.radius, shot.radius);
 	    	
 	    	ellipse(nextLocX, nextLocY, shot.radius, shot.radius);
 	    	shot.updateCurrentLocation(nextLocX, nextLocY);	
     	    
     	    popMatrix();
+    	    
+    	    shotSelected(shot);
     	}
     }
 	
@@ -111,5 +117,20 @@ public class ShotChart extends PApplet {
 	    	
 	    else
 	    	return new Color(240,81,51);	
+	}
+	
+	private void shotSelected (Shot shot) {
+		
+		// mouse detection
+	    if (shot.isHit()) {
+			fill(85);
+			textFont(font, 23);
+			String s = "Shot ID:  " + shot.id;
+			text(s, 50, 100);
+			String s1 = "Made:  " + (shot.getShotMade() ? "Yes" :"No");
+			text(s1, 50, 125);
+			String s2 = "Opponent: " + shot.opponent;
+			text(s2, 50, 150);
+	    }
 	}
 }

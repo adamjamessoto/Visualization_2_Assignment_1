@@ -12,6 +12,10 @@ public class Shot {
 	public int id;
 	public PApplet p;
 	public int shotMade;
+	public String actionType;
+    public String shotType;
+    public double shotDistance;
+    public String opponent;
 
 	public Shot () {
 	}
@@ -23,6 +27,20 @@ public class Shot {
 		this.p = p;
 		this.shotMade = shotMade;
 		this.currentLoc = new PVector(300, 500);
+		
+		System.out.println("Shot ID: "  + this.id);
+	}
+	
+	public Shot (PVector finalLoc, float radius, int id, PApplet p, int shotMade, String opponent) {
+		this.finalLoc = alterCoordinates(finalLoc);
+		this.radius = radius;
+		this.id = id;
+		this.p = p;
+		this.shotMade = shotMade;
+		this.currentLoc = new PVector(300, 500);
+	    this.opponent = opponent;
+	    
+	    System.out.println("Shot ID: "  + this.id);
 	}
 	
 	public float getCurrentLocationX () {
@@ -49,6 +67,15 @@ public class Shot {
 		return ((this.shotMade == 1) ? true : false);
 		
 	}
+	
+	public boolean isHit() {
+		
+	    if (p.dist(p.mouseX, p.mouseY, finalLoc.x, finalLoc.y) < radius/2)
+	      return true; 
+	      
+	    return false;
+	}
+	
 	
 	private PVector alterCoordinates (PVector loc) {
 		float updateX;
