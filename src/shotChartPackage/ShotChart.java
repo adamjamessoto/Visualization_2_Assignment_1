@@ -54,6 +54,33 @@ public class ShotChart extends PApplet {
     	float nextLocX;
     	float nextLocY;
     	
+    	//lower court
+    	noFill();
+    	stroke(255,255,255);
+    	rect (45, 150, 510 , 353, 7);
+    	noFill();
+    	stroke(255,255,255);
+    	ellipse (300, 150, 107, 107);
+    	//Threepoint
+    	arc(300, 503, 455, 480,PI, TWO_PI);
+    	
+    	
+    	//Key
+    	
+    	fill(48, 139, 206);
+    	stroke(255,255,255);
+    	rect (246, 340, 107, 210 );
+    	noFill();
+    	stroke(255,255,255);
+    	ellipse(300, 340, 107, 107);
+    	
+    	//overlay circle (to clean circle draw)
+    	fill(230, 191, 131);
+    	noStroke();
+    	rect(100, 504, 400,400);
+    	
+
+    	
     	// Drawing the individual shots
     	for (int i = 0; i < shotsAttempts.length; i++) {
     		Shot shot = shotsAttempts[i];
