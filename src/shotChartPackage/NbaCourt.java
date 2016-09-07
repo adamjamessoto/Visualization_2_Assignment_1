@@ -13,13 +13,5 @@ public class NbaCourt {
 		this.length = length;
 		this.width = width;
 	}
-	
-	public void buildBox () {
-		
-	}
-	
-	public void buildArcs () {
-		
-	}
 
 }

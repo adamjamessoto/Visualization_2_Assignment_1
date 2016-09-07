@@ -15,6 +15,8 @@ public class ShotChart extends PApplet {
 	JSONArray playerShots;
 	Shot[] shotsAttempts;
 	PFont font;
+	NbaCourt court;
+	Color lineColor;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -31,6 +33,9 @@ public class ShotChart extends PApplet {
     public void setup(){
     	background(230, 191, 131);
     	font = loadFont("ArialMT-148.vlw");
+    	
+    	court = new NbaCourt();
+    	lineColor = new Color (255, 255, 255);
     	
     	// Load JSON file
     	playerShots = loadJSONArray("westbrookShots_15_16.json");
@@ -54,32 +59,11 @@ public class ShotChart extends PApplet {
     	float nextLocX;
     	float nextLocY;
     	
-    	//lower court
-    	noFill();
-    	stroke(255,255,255);
-    	rect (45, 150, 510 , 353, 7);
-    	noFill();
-    	stroke(255,255,255);
-    	ellipse (300, 150, 107, 107);
-    	//Threepoint
-    	arc(300, 503, 455, 480,PI, TWO_PI);
+    	buildLowerCourt(lineColor);
+    	buildThreePoint(lineColor);
+    	buildKey(lineColor);
+    	buildOverLay();
     	
-    	
-    	//Key
-    	
-    	fill(48, 139, 206);
-    	stroke(255,255,255);
-    	rect (246, 340, 107, 210 );
-    	noFill();
-    	stroke(255,255,255);
-    	ellipse(300, 340, 107, 107);
-    	
-    	//overlay circle (to clean circle draw)
-    	fill(230, 191, 131);
-    	noStroke();
-    	rect(100, 504, 400,400);
-    	
-
     	
     	// Drawing the individual shots
     	for (int i = 0; i < shotsAttempts.length; i++) {
@@ -102,8 +86,6 @@ public class ShotChart extends PApplet {
        		nextLocY = updateLocY(currentLocY, finalLocY);
         	
         	// Draw ellipse in next position
-//        	ellipse(finalLocX, finalLocY, shot.radius, shot.radius);
-	    	
 	    	ellipse(nextLocX, nextLocY, shot.radius, shot.radius);
 	    	shot.updateCurrentLocation(nextLocX, nextLocY);	
     	    
@@ -159,5 +141,34 @@ public class ShotChart extends PApplet {
 			String s2 = "Opponent: " + shot.opponent;
 			text(s2, 50, 150);
 	    }
+	}
+	
+	public void buildLowerCourt (Color lineColor) {
+		noFill();
+    	stroke(lineColor.getRGB());
+    	rect (45, 150, 510 , 353, 7);
+    	noFill();
+    	stroke(lineColor.getRGB());
+    	ellipse (300, 150, 107, 107);
+	}
+	
+	public void buildThreePoint (Color lineColor) {
+		stroke(lineColor.getRGB());
+		arc(300, 503, 455, 480,PI, TWO_PI);
+	}
+	
+	public void buildKey (Color lineColor) {
+		fill(48, 139, 206);
+    	stroke(lineColor.getRGB());
+    	rect (246, 340, 107, 210 );
+    	noFill();
+    	stroke(lineColor.getRGB());
+    	ellipse(300, 340, 107, 107);
+	}
+	
+	public void buildOverLay () {
+		fill(230, 191, 131);
+    	noStroke();
+    	rect(100, 504, 400,400);
 	}
 }
